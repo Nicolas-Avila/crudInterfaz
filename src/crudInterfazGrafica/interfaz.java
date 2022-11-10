@@ -106,20 +106,23 @@ public class interfaz extends javax.swing.JFrame {
                                         .addContainerGap()
                                         .addComponent(jLabel4)))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cajaNombre)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cajaApellido)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cajaId, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(botonBuscar))
-                                    .addComponent(cajaAño, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cajaCurso)
-                                    .addComponent(cajaEdad)))
+                                    .addComponent(cajaEdad)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cajaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cajaAño, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(botonInsertar)
-                                .addGap(89, 89, 89)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE))
+                                .addGap(38, 38, 38)))
+                        .addGap(121, 121, 121))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(botonModificar)
@@ -208,7 +211,29 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInsertarActionPerformed
-        // TODO add your handling code here:
+        try{
+            Conexion con=new Conexion();
+            Connection conexion = con.getConnection();
+            
+            ps=conexion.prepareStatement("insert into alumno (id, nombre, apellido, edad, curso, año) values (null, ?, ?, ?, ?, ?)");
+            ps.setString(1, cajaNombre.getText());
+            ps.setString(2, cajaApellido.getText());
+            ps.setInt(3, Integer.parseInt(cajaEdad.getText()));
+            ps.setString(4, cajaCurso.getText());
+            ps.setInt(5, Integer.parseInt(cajaAño.getText()));
+            int res=ps.executeUpdate();
+            
+            if(res>0){
+                JOptionPane.showMessageDialog(null, "El alumno '" + cajaApellido.getText() + ", " + cajaNombre.getText() + "' fue añadido correctamente.");
+                limpiarCajas();
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al agregar alumno. ");
+                limpiarCajas();
+            }
+            
+        }catch(Exception ex){
+            System.out.println("Error " + ex);
+        }
     }//GEN-LAST:event_botonInsertarActionPerformed
 
     public static void main(String args[]) {
