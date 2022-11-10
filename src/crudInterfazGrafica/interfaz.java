@@ -72,6 +72,11 @@ public class interfaz extends javax.swing.JFrame {
         });
 
         botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botonModificar.setText("Modificar");
         botonModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -264,6 +269,29 @@ public class interfaz extends javax.swing.JFrame {
             System.out.println("Error " + ex);
         }
     }//GEN-LAST:event_botonModificarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        try{
+            Conexion con=new Conexion();
+            Connection conexion = con.getConnection();
+            
+            ps=conexion.prepareStatement("delete from alumno where id=?");
+            ps.setString(1, cajaId.getText());
+            String id= cajaId.getText();
+            int res=ps.executeUpdate();
+            
+            if(res>0){
+                JOptionPane.showMessageDialog(null, "El alumno con el ID '" + id + ", " + cajaNombre.getText() + "' fue eliminado correctamente.");
+                limpiarCajas();
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al eliminar alumno. ");
+                limpiarCajas();
+            }
+            
+        }catch(Exception ex){
+            System.out.println("Error " + ex);
+        }
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
     public static void main(String args[]) {
  
