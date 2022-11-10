@@ -74,6 +74,11 @@ public class interfaz extends javax.swing.JFrame {
         botonEliminar.setText("Eliminar");
 
         botonModificar.setText("Modificar");
+        botonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModificarActionPerformed(evt);
+            }
+        });
 
         botonInsertar.setText("Insertar");
         botonInsertar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,42 +94,39 @@ public class interfaz extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel3)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel5)))
+                                    .addComponent(jLabel2)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel4)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cajaApellido)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cajaId, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonBuscar))
+                            .addComponent(cajaCurso)
+                            .addComponent(cajaEdad)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel3)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel6)
-                                                    .addComponent(jLabel1)
-                                                    .addComponent(jLabel5)))
-                                            .addComponent(jLabel2)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jLabel4)))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cajaApellido)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cajaId, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(botonBuscar))
-                                    .addComponent(cajaCurso)
-                                    .addComponent(cajaEdad)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cajaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cajaAño, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botonInsertar)
-                                .addGap(38, 38, 38)))
+                                    .addComponent(cajaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cajaAño, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(121, 121, 121))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonInsertar)
+                        .addGap(44, 44, 44)
                         .addComponent(botonModificar)
                         .addGap(47, 47, 47)))
                 .addComponent(botonEliminar)
@@ -185,7 +187,7 @@ public class interfaz extends javax.swing.JFrame {
     private void cajaApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cajaApellidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cajaApellidoActionPerformed
-
+    
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         try{
             Conexion con=new Conexion();
@@ -235,6 +237,33 @@ public class interfaz extends javax.swing.JFrame {
             System.out.println("Error " + ex);
         }
     }//GEN-LAST:event_botonInsertarActionPerformed
+
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+        try{
+            Conexion con=new Conexion();
+            Connection conexion = con.getConnection();
+            
+            ps=conexion.prepareStatement("update alumno set nombre=?, apellido=?, edad=?, curso=?, año=? where id=?");
+            ps.setString(1, cajaNombre.getText());
+            ps.setString(2, cajaApellido.getText());
+            ps.setInt(3, Integer.parseInt(cajaEdad.getText()));
+            ps.setString(4, cajaCurso.getText());
+            ps.setInt(5, Integer.parseInt(cajaAño.getText()));
+            ps.setString(6, cajaId.getText());
+            int res=ps.executeUpdate();
+            
+            if(res>0){
+                JOptionPane.showMessageDialog(null, "El alumno '" + cajaApellido.getText() + ", " + cajaNombre.getText() + "' fue modificado correctamente.");
+                limpiarCajas();
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al modificar alumno. ");
+                limpiarCajas();
+            }
+            
+        }catch(Exception ex){
+            System.out.println("Error " + ex);
+        }
+    }//GEN-LAST:event_botonModificarActionPerformed
 
     public static void main(String args[]) {
  
