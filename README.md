@@ -1,4 +1,7 @@
-# crudInterfaz
-crud interfaz grafica
 
-tested on netbeans ide 13. there may be unexpected behaviour on older/later versions. 
+# Crud en Java
+
+Un Crud con interfas grafica realizado en Java
+
+
+
